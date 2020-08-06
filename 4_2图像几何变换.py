@@ -21,7 +21,7 @@ cv.imshow('img_zoom_out', img_zoom_out)
 
 # 【放射变换】warpAffine--利用输入的变换矩阵进行变换，各种矩阵参考https://blog.csdn.net/FadeFarAway/article/details/54970189
 # cv2.warpAffine(src, M, dsize[, dst[, flags[, borderMode[, borderValue]]]]) → dst
-# 【原理介绍】
+# 【原理介绍】--注意这里是对图像位置的矩阵相乘，不是卷积，最后算出来的是X/Y的实际位置
 # |X|   |m00 m01 m02|  |x|   |m00*x+m01*y+m02|
 # |Y| = |m10 m11 m12|* |y| = |m10*x+m11*y+m12| 最后一行是为了齐次坐标添加的，m00等构成的矩阵即为变换矩阵，注意xy指定是坐标
 # |1|   |0    0   1 |  |1|   |       1       |
