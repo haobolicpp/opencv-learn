@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 # OpenCV提供三种类型的梯度滤波器或高通滤波器，即Sobel，Scharr和Laplacian。我们将看到他们每一种。
 # 
 
-# 【拉普拉斯】原理参考https://www.cnblogs.com/german-iris/p/4840647.html
+# 【拉普拉斯】原理使用参考https://blog.csdn.net/cyf15238622067/article/details/87859887
 # 利用离散二次求导，计算出像素值，二次求导可以通过卷积矩阵进行运算
 # 离散函数f(x)一次求导：f' = f(x+1)-f(x)
 # 二次求导：f'' = f(x+1)+f(x-1)-2f(x)
@@ -21,24 +21,33 @@ from matplotlib import pyplot as plt
 # |0 1  0|
 # |1 -4 1|
 # |0 1  0|
-# 【结论】Laplace算子是二阶导数操作，其在强调图像素中灰度不连续的部分的同时也不在强调灰度值连续的部分。这样会产生一个具有很明显的灰度边界。
+# 【结论】Laplace算子是二阶导数操作，其在强调图像素中灰度不连续的部分的同时也不在强调灰度值连续的部分。这样会产生一个具有很明显的灰度边界
+# 一般用来对图像边缘进行锐化（原图像-拉普拉斯图）。
 # 
 # Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
 # ddepth，输出图像深度，因为输入图像一般为CV_8U，为了避免数据溢出，输出图像深度应该设置为CV_16S或CV_64F，这是因为白色到黑色的过渡斜率为负值！！
 # kernel_size，filter mask的规模，我们的mask时3x3的，所以这里应该设置为3
 # scale,delta,BORDER_DEFAULT，默认设置就好
 
-#不加高斯预处理
+
 img = cv.imread('./pic/3-sub.png',0)
 #img = cv.imread('./pic/wb.png',0)
-cv.imshow('img_no_gaus', img)
-img_laplac = cv.Laplacian(img, cv.CV_64F)
-cv.imshow('img_laplac_no_gaus', img_laplac)
+cv.imshow('img', img)
+#img_laplac = cv.Laplacian(img, cv.CV_64F)#不加高斯预处理
+#cv.imshow('img_laplac_no_gaus', img_laplac)
 # 加上高斯预处理
 img = cv.GaussianBlur(img, (5,5), 1) # 图像处理之前一般会进行高斯去噪，高斯去噪是为了防止把噪点也检测为边缘。
 cv.imshow('GaussianBlur', img)
 img_laplac = cv.Laplacian(img, cv.CV_64F)
-cv.imshow('img_laplac_gaus', img_laplac)
+#cv.imshow('img_laplac_gaus', img_laplac) #imshow偷着转了，所以显示的图像不准确
+img_laplac = cv.convertScaleAbs(img_laplac) #取绝对值
+img_laplac = cv.subtract(img, img_laplac) #原图像减去拉普拉斯值，进行锐化
+cv.imshow('img_laplac_gaus', img_laplac) #显示锐化后的图像，效果是显示的图像边缘更黑了
+
+#imshow的转换规则：
+#1，如果原始图片是8位无符号整数，就按照原来的数字进行显示。也就是数字范围是[0,255]
+#2，如果原始图片是16位无符号整数或者32位整数，就除以256进行显示。也就是说0到256*256的范围被压缩到0到255。
+#3，如果图片是32位或者64位的浮点类型数据，那么像素值就会乘以255。也就是说，0到1的范围被映射到0到255.
 
 # 【sobel算子】https://www.cnblogs.com/sdu20112013/p/11608469.html
 # sobel算子模拟一阶求导
@@ -70,7 +79,7 @@ cv.imshow('img_scharr_y', img_scharr_y)
 
 # CV_64F 转 CV_8U 最终结果图像很淡，因为取得是绝对值，负值部分都比较小
 # 【推测】在上面拉普拉斯变换的结果中，负值部分在调用imshow的时候，直接被转为了255！！！
-# 拉普拉斯毕竟不是二值图
+# 拉普拉斯毕竟不是二值图，找边缘的话还得用二值图
 abs_64f = np.absolute(img_laplac)
 img_8u = np.uint8(abs_64f)
 cv.imshow('img_8u', img_8u)

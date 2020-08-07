@@ -8,6 +8,11 @@ plt.imshow(img, cmap='gray',
            interpolation='bicubic')  #interpolation插值方法，bicubic：三次插值
 plt.xticks([]), plt.yticks([])  # 隐藏 x 轴和 y 轴上的刻度值
 plt.show()
+## imshow的转换规则：
+# 1，如果原始图片是8位无符号整数，就按照原来的数字进行显示。也就是数字范围是[0,255]
+# 2，如果原始图片是16位无符号整数或者32位整数，就除以256进行显示。也就是说0到256*256的范围被压缩到0到255。
+# 3，如果图片是32位或者64位的浮点类型数据，那么像素值就会乘以255。也就是说，0到1的范围被映射到0到255.
+
 
 cv.imwrite('./pic/2.jpg', img)
 
