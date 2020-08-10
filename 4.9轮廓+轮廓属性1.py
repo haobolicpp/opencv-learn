@@ -44,7 +44,7 @@ ret, img_binary = cv.threshold(img, 0, 255, cv.THRESH_OTSU) #ostu自动全局阈
 contours, hierachy = cv.findContours(img_binary, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
 # 【绘制轮廓】
-# drawContours:参数2为轮廓集合，参数3为指定轮廓集合的哪个，参数4为绘制轮廓的颜色，参数5为画笔粗细
+# drawContours:参数2为轮廓集合，参数3为指定轮廓集合的哪个，参数4为绘制轮廓的颜色，参数5为画笔粗细,如果为负值或CV_FILLED表示填充轮廓内部
 img_src_copy1 = img_rgb.copy()
 img_src_copy2 = img_rgb.copy()
 cv.drawContours(img_src_copy1, contours, 3, (0,255,0), 1) #绘制所有轮廓(参数3为-1)，也可以指定哪一个
@@ -56,9 +56,9 @@ plt.subplot(133),plt.imshow(img_src_copy2),plt.title('img_src_copy2')
 plt.show()
 
 ## 【轮廓特征】
-# 【图像的矩】--参考https://blog.csdn.net/qq_37207090/article/details/83986950
+# 【图像的矩】--参考 https://blog.csdn.net/weixin_42464187/article/details/105700055   https://blog.csdn.net/qq_37207090/article/details/83986950
 # 矩的离散公式：∑∑x^p*y^q*f(x,y),pq的取值决定了几阶矩
-# 0阶矩，m00,即p=q=0，公式为∑∑f(x,y)表示全局灰度累加值
+# 0阶矩，m00,即p=q=0，公式为∑∑f(x,y)表示全局灰度累加值,但它和轮廓面积相同，轮廓面积是轮廓内像素的个数，这样是不是说零阶矩是灰度为1后的累加？？？TODO
 # 1阶矩,m01和m00，可以用来计算质心
 # 【获得轮廓的矩】--moments接口，返回0~3阶矩的数值
 cnt0 = contours[5]
@@ -83,6 +83,7 @@ plt.subplot(111),plt.imshow(img_src_copy3),plt.title('img_src_copy3')
 plt.show() #问题 只绘制了点，没有连接
 
 # 【轮廓凸包】-凸曲线是始终凸出或至少平坦的曲线。如果在内部凸出，则称为凸度缺陷
+#    void convexHull(InputArray points,OutputArray hull,bool clockwise =  false, bool returnPoints = true)，，最后一个参数表示返回点还是点在轮廓中的的下标索引
 hull = cv.convexHull(contours[3])
 img_src_copy4 = img_rgb.copy()
 cv.polylines(img_src_copy4, [hull], True, (0, 255, 0)) #画多边形
@@ -93,7 +94,7 @@ plt.show()
 isconvex = cv.isContourConvex(contours[3])
 print(isconvex)
 
-# 【边界矩形】 - 两种，正矩阵、最小面积矩形
+# 【边界矩形】 - 两种，正矩阵、最小面积矩形 boundingRect 和 minAreaRect
 x,y,w,h = cv.boundingRect(contours[3]) #直角矩形，不考虑物体旋转，它面积不是最小的
 cv.rectangle(img_src_copy4,(x,y),(x+w,y+h),(0,0,255),1)
 rect = cv.minAreaRect(contours[3]) #旋转矩形，最小面积矩形，返回值中包含位置及旋转角度
@@ -114,7 +115,7 @@ cv.ellipse(img_src_copy5,ellipse,(0,255,0),1)
 plt.subplot(111),plt.imshow(img_src_copy5),plt.title('min-circle ellipse')
 plt.show()
 
-# 【拟合直线】 - 内部使用最小二乘法 https://blog.csdn.net/lovetaozibaby/article/details/99482973
+# 【拟合直线】 - https://blog.csdn.net/lovetaozibaby/article/details/99482973
 # cv2.fitLine(InputArray  points, distType, param, reps, aeps)
 # distType: 距离类型，表示点到拟合直线的距离和最小
 #       cv2.DIST_USER : 用户自定义

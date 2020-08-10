@@ -5,6 +5,8 @@ from matplotlib import pyplot as plt
 
 ## 在本教程中，您将学习简单阈值，自适应阈值和Otsu阈值。
 ## 你将学习函数**cv.threshold**和**cv.adaptiveThreshold**
+## inRange()函数可实现二值化功能（这点类似threshold()函数），关键的是可以同时针对多通道进行操作，使用起来非常方便！
+## inRange(原图像，下界阈值，上界阈值)，作用是将两个阈值之间的设置为白色255，之外的设置为黑色0，参数和threshold不太一样 参考4_1
 
 # 【简单阈值】——主要是threshold，连接https://blog.csdn.net/weixin_42296411/article/details/80901080
 img = cv.imread('./pic/3.bmp', 0)
