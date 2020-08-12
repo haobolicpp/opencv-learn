@@ -27,6 +27,7 @@ from matplotlib import pyplot as plt
 #           取值二：CV_CHAIN_APPROX_SIMPLE 仅保存轮廓的拐点信息，把所有轮廓拐点处的点保存入contours向量内，拐点与拐点之间直线段上的信息点不予保留
 #           取值三和四：CV_CHAIN_APPROX_TC89_L1，CV_CHAIN_APPROX_TC89_KCOS使用teh-Chinl chain 近似算法
 # 第六个参数：Point偏移量，所有的轮廓信息相对于原始图像对应点的偏移量，相当于在每一个检测出的轮廓点上加上该偏移量，并且Point还可以是负值
+# 轮廓分层hierarchy：参考http://woshicver.com/FifthSection/4_9_5_轮廓分层/
 
 img_rgb = cv.imread('./pic/3.bmp')
 img_rgb = img_rgb[1063:1127, 1639:1733]
