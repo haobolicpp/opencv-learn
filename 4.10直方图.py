@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 ## 直方图histogram
 ## 直方图查找
 ## 直方图绘制
-## 直方图均衡
+## 直方图均衡 equalizeHist
 ## 二维直方图
 ## 直方图反投影
 ## cv.calcHist()，np.histogram()
@@ -34,8 +34,30 @@ plt.hist(img.ravel(),256,[0,256]); plt.show()
 
 # 【掩码的应用】，可创建掩码图像，掩码中白色为要统计直方图的部分，黑色为忽略的部分。 略
 
-# 【直方图均衡】
+# 【直方图均衡】--参考https://blog.csdn.net/qq_15971883/article/details/88699218
+# 大概思路：
+# ①求直方图，得到各个像素个数的概率（像素n的个数/总个数）
+# ②依靠s = T(r)得到最终的像素，这里r为原始像素值，s为均衡化变换后的像素值
+# T的公式参考链接，这里不推导了
+# 【适用场景】如果一幅图像整体偏暗或者偏亮，那么直方图均衡化的方法很适用。
+# 【缺点】：如果图像某些区域对比度很好，而另一些区域对比度不好，那采用直方图均衡化就不一定适用；
+# 均衡化后图像的灰度级减少，某些细节将会消失；某些图像（如直方图有高峰），经过均衡化后对比度不自然的过分增强
+img = cv.imread('./pic/his1.png', 0)
+img_equalizeHist = cv.equalizeHist(img)
+plt.subplot(121),plt.imshow(img,cmap='gray'),plt.title('img')
+plt.subplot(122),plt.imshow(img_equalizeHist,cmap='gray'),plt.title('img_equalizeHist')
+plt.show()
 
+# 【对比度受限的自适应直方图均衡-(CLAHE算法)】--为了解决上面的缺点，这里用了一个图像，某些区域直方图过高导致
+# 大概原理：图像被分成称为“tiles”的小块（在OpenCV中，tileSize默认为8x8）。然后，像往常一样对这些块中的每一个进行直方图均衡。
+img = cv.imread('./pic/his2.png', 0)
+img_equalizeHist = cv.equalizeHist(img) #普通的全局均衡，效果不好
+clahe = cv.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+img_clahe = clahe.apply(img)
+plt.subplot(131),plt.imshow(img,cmap='gray'),plt.title('img')
+plt.subplot(132),plt.imshow(img_equalizeHist,cmap='gray'),plt.title('img_equalizeHist')
+plt.subplot(133),plt.imshow(img_clahe,cmap='gray'),plt.title('img_clahe')
+plt.show()
 
 cv.waitKey(0)
 cv.destroyAllWindows()
