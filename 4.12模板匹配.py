@@ -21,9 +21,32 @@ from matplotlib import pyplot as plt
 # 【匹配结果result】模板在待测图像上每次在横向或是纵向上移动一个像素，并作一次比较计算，由此，横向比较W-w+1次，纵向比较H-h+1次，从而得到一个（W-w+1）×（H-h+1）维的结果矩阵，
 # result即是用图像来表示这样的矩阵,因而图像result的大小为（W-w+1）×（H-h+1）。匹配结果图像与原图像之间的大小关系，他们之间差了一个模板大小。
 # 【如何从result中获得最佳匹配区域】使用函数cvMinMaxLoc(result,&min_val,&max_val,&min_loc,&max_loc,NULL);从result中提取最大值（最小值）以及最大值的位置（即模板滑行时左上角的坐标）
-
-
-# plt.subplot(144),plt.imshow(img_back, cmap = 'gray'),plt.title('img_back_low')
+img_templete = cv.imread('./pic/templete.png', 0)
+cv.imshow('img_templete', img_templete)
+w, h = img_templete.shape
+methods = ['cv.TM_CCOEFF', 'cv.TM_CCOEFF_NORMED', 'cv.TM_CCORR',
+            'cv.TM_CCORR_NORMED', 'cv.TM_SQDIFF', 'cv.TM_SQDIFF_NORMED']
+imgs = ['./pic/1-1.bmp', './pic/1-2.bmp', './pic/1-3.bmp', './pic/1-4.bmp']
+j=1
+for img in imgs:
+    img_src = cv.imread(img, 0)
+    for m in methods:
+        img2 = img_src.copy()
+        method = eval(m) #字符串转实际值，该函数牛逼，可以捕获局部变量和全局变量并计算表达式
+        res = cv.matchTemplate(img_src, img_templete, method)
+        min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
+        # 如果方法是TM_SQDIFF或TM_SQDIFF_NORMED，则取最小值
+        if method in [cv.TM_SQDIFF, cv.TM_SQDIFF_NORMED]:
+            top_left = min_loc
+        else:
+            top_left = max_loc
+        #画矩形
+        bottom_right = (top_left[0] + w, top_left[1] + h)
+        cv.rectangle(img2,top_left, bottom_right, 255, 2)
+        plt.subplot(4,6,j),plt.imshow(img2, cmap = 'gray'),plt.title(m),plt.xticks([]), plt.yticks([])
+        j = j+1
+plt.show()
+# plt.subplot(144),plt.imshow(img_back, cmap = 'gray'),plt.title('img_back_low'),plt.xticks([]), plt.yticks([])
 # plt.show()
 
 cv.waitKey(0)
