@@ -2,6 +2,8 @@ import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
 
+#plt.imshow是按RGB显示，cv.imread是bgr格式,plt.imshow(cv.cvtColor(img_roi_wall, cv.COLOR_BGR2RGB)),显示彩色图像
+
 img = cv.imread('./pic/1.jpg', 0)  #0灰度
 cv.imshow('1', img)
 plt.imshow(img, cmap='gray',
