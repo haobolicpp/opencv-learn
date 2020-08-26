@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 ## 有如下功能：
  # - 距离变换--distanceTransform
- # - 连通组件--connectedComponents
+ # - 连通组件--connectedComponents connectedComponentsWithStats
  # - 我们将学习使用分水岭算法实现基于标记的图像分割 
  # - 我们将看到：cv.watershed()
  # 直接参考https://blog.csdn.net/yukinoai/article/details/88575861?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-4.channel_param
