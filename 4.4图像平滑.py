@@ -23,10 +23,13 @@ cv.imshow('img_blur', img_blur)
 # plt.xticks([]), plt.yticks([])
 # plt.show()
 
-# 【高斯】代替盒式滤波器，使用了高斯核，核宽度和高度应为正数和奇数，还应指定X和Y方向的标准偏差，分别为sigmaX和sigmaY。如果仅指定sigmaX，则将sigmaY与sigmaX相同。
+# 【高斯】https://blog.csdn.net/farmwang/article/details/74452750
+# 代替盒式滤波器，使用了高斯核，核宽度和高度应为正数和奇数，还应指定X和Y方向的标准偏差，分别为sigmaX和sigmaY。如果仅指定sigmaX，则将sigmaY与sigmaX相同。
 # 如果两个都为零，则根据内核大小进行计算
+# 随着sigma的增大，整个高斯函数的尖峰逐渐减小，整体也变的更加平缓，则对图像的平滑效果越来越明显。（https://blog.csdn.net/qinglongzhan/article/details/82348153）
 # 【结论】高斯滤波器采用像素周围的邻域并找到其高斯加权平均值。滤波时会考虑附近的像素。它不考虑像素是否具有几乎相同的强度。它不考虑像素是否是边缘像素。因此它也模糊了边缘，这个可以通过双边滤波解决
 # 图像处理之前一般会进行高斯去噪，高斯去噪是为了防止把噪点也检测为边缘。
+# 【性质】对图像先后做sigma1和sigma2的高斯处理，等同于做一次sqrt(sigma1*sigma1+sigma2*sigma2)的高斯滤波,即sigma0^2 = sigma1^2+sigma2^2
 def OnGaussblur(x):
     kernel_size = cv.getTrackbarPos("kernel_size", "Gaussblur")
     sigmaX = cv.getTrackbarPos("sigmaX", "Gaussblur")
