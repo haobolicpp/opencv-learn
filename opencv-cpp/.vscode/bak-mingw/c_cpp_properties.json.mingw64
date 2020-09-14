@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/Qt/Qt5.12.8/Tools/mingw730_64/include",
+                "D:\\opencv4\\mingw-64\\OpenCV-MinGW-Build\\include\\",
+                "D:\\opencv4\\mingw-64\\OpenCV-MinGW-Build\\include\\opencv2"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            // "windowsSdkVersion": "8.1",
+            "compilerPath": "D:/Qt/Qt5.12.8/Tools/mingw730_64/bin/gcc.exe", //编译器路径
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
