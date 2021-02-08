@@ -8,6 +8,21 @@ import time
 # 快速傅里叶变换FFT
 # opencv傅里叶变换及应用
 # 傅里叶变换性能优化--针对图像尺寸 cv.getOptimalDFTSize() cv.copyMakeBorder
+
+def create_gauss_kernel(size, sigma):
+    kernel = np.zeros((size, size))
+    center = size // 2 #中心
+    sigma2 = 2*sigma**2
+
+    for i in range(size):
+        for j in range(size):
+            x = i - center
+            y = j - center
+            kernel[i, j] = np.exp(-(x**2+y**2)/sigma2)
+    kernel = kernel/(2*np.pi*sigma**2) #最后做了除法
+    sumval = np.sum(kernel) #总和为1的计算量
+    kernel = kernel/sumval
+    return kernel
  
 #图像x,y,灰度可以在三维空间中描述为一个曲面，【傅里叶变换】就是找到一堆sin型曲面，这个sin型曲面包含了幅值、相位、频率和方向，图像中opencv-dft后得到的即是各个中sin型曲面的信息（用复数描述，实部+i虚部）
 #在FFT或DFT后的频谱图像中，点到中心的距离是频率，点的值是幅值，幅值需根据opencv返回的值单独计算，因为DFT返回的是复数。复数的幅值，实部和虚部平方和开方

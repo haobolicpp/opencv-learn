@@ -61,7 +61,6 @@ from matplotlib import pyplot as plt
 
 
 
-
 img = cv.imread('./pic/1.jpg')
 img_gray = cv.cvtColor(img,  cv.COLOR_BGR2GRAY)
 sift = cv.xfeatures2d.SIFT_create()

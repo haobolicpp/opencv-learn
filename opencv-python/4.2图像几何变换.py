@@ -31,7 +31,7 @@ cv.imshow('img_zoom_out', img_zoom_out)
 # |0 1 ty|
 M = np.float32([[1,0,100],[0, 1, 200]]) #x平移100， y平移200
 rows,cols = img_zoom_out.shape[0:2]
- cv.imshow('img_trans', img_trans)
+cv.imshow('img_trans', img_trans)
 
 ## 【旋转】矩阵为
 # |cosθ -sinθ 0|
