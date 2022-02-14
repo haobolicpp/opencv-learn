@@ -48,8 +48,8 @@ contours, hierachy = cv.findContours(img_binary, cv.RETR_TREE, cv.CHAIN_APPROX_S
 # drawContours:参数2为轮廓集合，参数3为指定轮廓集合的哪个，参数4为绘制轮廓的颜色，参数5为画笔粗细,如果为负值或CV_FILLED表示填充轮廓内部
 img_src_copy1 = img_rgb.copy()
 img_src_copy2 = img_rgb.copy()
-cv.drawContours(img_src_copy1, contours, 3, (0,255,0), 1) #绘制所有轮廓(参数3为-1)，也可以指定哪一个
-cv.drawContours(img_src_copy2, contours[7], -1, (0,255,0), 1) #绘制下标4的轮廓
+cv.drawContours(img_src_copy1, contours, -1, (0,255,0), 1) #绘制所有轮廓(参数3为-1)，也可以指定哪一个
+cv.drawContours(img_src_copy2, contours[4], -1, (0,255,0), 1) #绘制下标4的轮廓
 
 plt.subplot(131),plt.imshow(img_binary,cmap='gray'),plt.title('img_binary')
 plt.subplot(132),plt.imshow(img_src_copy1),plt.title('img_src_copy1')

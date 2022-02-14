@@ -4,12 +4,12 @@ import math
 from matplotlib import pyplot as plt
 
 img = cv.imread('./pic/3-sub.png')
-# 腐蚀 用一个5x5内核，它包含了所有的1
+# 腐蚀 用一个5x5内核，取局部极小值替换中心元素的值
 kernel = np.ones((5,5), np.uint8) #构建都是1的5*5矩阵
 img_erode = cv.erode(img, kernel)
 cv.imshow('img_erode', img_erode)
 
-# 膨胀
+# 膨胀 取局部极大值替换中心元素的值
 img_dilate = cv.dilate(img, kernel)
 cv.imshow('img_dilate', img_dilate)
 

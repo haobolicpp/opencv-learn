@@ -20,7 +20,7 @@ cv.imwrite('./pic/2.jpg', img)
 
 ##绘图
 #创建全黑图像
-img_black = np.zeros((512, 512, 3), np.uint8)  #shape为3个轴，每个轴的元素个数为512,512,3
+img_black = np.zeros((512, 512, 3), np.uint8)  #这里第一个参数shape含义：512*512个像素，每个像素3个值（即3个轴及轴上的元素）
 print(img_black.shape)
 #画线
 cv.line(img_black, (0, 0), (511, 511), (0, 255, 0), 5)
@@ -53,7 +53,7 @@ print(img_roi.shape)
 cv.imshow('roi', img_roi)
 # 【拆分/合并通道】
 b, g, r = cv.split(img_color)  # 耗时，建议改为下面的numpy
-b = img_color[:, :, 0]
+b = img_color[:, :, 0] # 结果是80*100的B通道像素值
 g = img_color[:, :, 1]
 r = img_color[:, :, 2]
 img_merge = cv.merge((b, g, r))
